@@ -1,0 +1,8 @@
+{
+  "name": "Remix: Informatika Modul Ajar Generator",
+  "description": "Generator Modul Ajar Kurikulum Merdeka untuk Informatika SMP Kelas VIII, didukung oleh AI untuk penyusunan dan revisi cepat.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

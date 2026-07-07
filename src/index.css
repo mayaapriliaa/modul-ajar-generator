@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Poppins", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-primary-dark: #473C33;
+  --color-primary-light: #14b8a6;
+  --color-accent-orange: #FDA769;
+  --color-accent-yellow: #FEC868;
+  --color-neutral-bg: #F5F2EB;
+}
