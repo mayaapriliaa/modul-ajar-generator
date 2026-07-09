@@ -114,35 +114,41 @@ export const LINGKUP_MATERI_MAP_VIII: Record<string, LingkupMateriOption[]> = {
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
     {
-      lingkupMateri: "Struktur Data (stack /tumpukan)",
-      tujuanPembelajaran: "1. Mengenal organisasi data terstruktur sebagai tumpukan (stack).",
+      lingkupMateri: "Struktur Data",
+      tujuanPembelajaran: "1. Mengenal organisasi data terstruktur as tumpukan (stack) untuk menyelesaikan masalah komputasi.",
       kegiatanPembelajaran: "- Menyelesaikan permainan atau Teka-teki Operasi Perhitungan dengan Tumpukan (Stack)",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     }
   ],
   "TIK": [
     {
-      lingkupMateri: "Konsep perangkat lunak aplikasi dan fitur aplikasi",
+      lingkupMateri: "Perangkat Lunak Aplikasi dan Fitur Aplikasi",
       tujuanPembelajaran: "1. Memahami struktur dari konten dan fitur utama aplikasi pengolah kata, pengolah lembar kerja, dan presentasi.",
       kegiatanPembelajaran: "- Eksplorasi berbagai format File\n- Eksplorasi tindakan salin dan tempel pada aplikasi perkantoran\n- Fitur utama aplikasi pengolah kata",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
     {
-      lingkupMateri: "Pembuatan laporan dengan integrasi konten dari berbagai aplikasi perkantoran",
+      lingkupMateri: "Pembuatan Laporan",
       tujuanPembelajaran: "1. Membuat laporan dengan menyalin dan memindahkan konten dari satu aplikasi ke aplikasi lain yang dirancang sebagai satu paket aplikasi, yaitu aplikasi perkantoran.",
       kegiatanPembelajaran: "- Membuat laporan dokumentasi program dengan aplikasi pengolah kata\n- Membuat laporan kegiatan dengan aplikasi pengolah kata melalui penarikan data dari lembar kerja",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
     {
-      lingkupMateri: "Merangkum narasi dari konten digital",
+      lingkupMateri: "Merangkum Narasi dari Konten Digital",
       tujuanPembelajaran: "1. Merangkum, mengevaluasi, dan menyimpulkan beberapa bahan bacaan dalam bentuk digital (file) yang berbeda format, dan merefleksikan isinya.",
       kegiatanPembelajaran: "- Menelaah dan bereksperimen dengan bacaan digital",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
     {
-      lingkupMateri: "Eksplorasi Laboratorium Maya",
+      lingkupMateri: "Laboratorium Maya",
       tujuanPembelajaran: "1. Menggunakan laboratorium maya untuk eksplorasi dan belajar mandiri dalam menunjang mata pelajaran lainnya.",
       kegiatanPembelajaran: "- Eksplorasi Laboratorium Maya",
+      alokasiWaktu: "2 JP (2 x 40 Menit)"
+    },
+    {
+      lingkupMateri: "Belajar Koneksi",
+      tujuanPembelajaran: "1. Memahami konsep konektivitas antar-perangkat dan integrasi fungsional dalam kehidupan sehari-hari.",
+      kegiatanPembelajaran: "- Studi kasus koneksi dan kolaborasi aplikasi perkantoran\n- Simulasi integrasi antar perangkat keras dan lunak",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     }
   ],
@@ -154,8 +160,8 @@ export const LINGKUP_MATERI_MAP_VIII: Record<string, LingkupMateriOption[]> = {
       alokasiWaktu: "1 JP (1 x 40 Menit)"
     },
     {
-      lingkupMateri: "Pengalamatan Memori",
-      tujuanPembelajaran: "1. Memahami mekanisme internal penyimpanan data pada sistem komputer.",
+      lingkupMateri: "Pengingat Memori",
+      tujuanPembelajaran: "1. Memahami mekanisme internal penyimpanan data pada sistem komputer (heksadesimal dan alamat memori).",
       kegiatanPembelajaran: "- Mempelajari Sandi Heksadesimal\n- Menentukan Alamat Memori",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
@@ -169,7 +175,7 @@ export const LINGKUP_MATERI_MAP_VIII: Record<string, LingkupMateriOption[]> = {
   "JKI": [
     {
       lingkupMateri: "Jaringan Komputer",
-      tujuanPembelajaran: "1. Memahami internet dan jaringan lokal.\n2. Memahami cara kerja pengiriman data dalam konektivitas jaringan.",
+      tujuanPembelajaran: "1. Memahami internet and jaringan lokal.\n2. Memahami cara kerja pengiriman data dalam konektivitas jaringan.",
       kegiatanPembelajaran: "- Praktikum Konfigurasi Jaringan Komputer\n- Menganalisis Jalur Routing pengiriman paket data",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
@@ -200,21 +206,15 @@ export const LINGKUP_MATERI_MAP_VIII: Record<string, LingkupMateriOption[]> = {
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
     {
-      lingkupMateri: "Peringkasan Data",
-      tujuanPembelajaran: "1. Menentukan kriteria dan meringkas data berdasarkan kategori tertentu.",
-      kegiatanPembelajaran: "- Meringkas Data Manual\n- Meringkas Data dengan Pivot Table",
-      alokasiWaktu: "1 JP (1 x 40 Menit)"
+      lingkupMateri: "Pengolahan Data",
+      tujuanPembelajaran: "1. Menentukan kriteria, mengelola, dan meringkas data menggunakan tools pengolah lembar kerja.",
+      kegiatanPembelajaran: "- Mengolah data dengan rumus statistik dasar, filtering, sorting, dan pivot table",
+      alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
     {
-      lingkupMateri: "Pengelolaan Data",
-      tujuanPembelajaran: "1. Memakai tools seperti pengolah lembar kerja untuk mengelola data dan menampilkan data sesuai dengan tujuan.",
-      kegiatanPembelajaran: "- Mengelola dan menganalisis Data dengan Tables",
-      alokasiWaktu: "1 JP (1 x 40 Menit)"
-    },
-    {
-      lingkupMateri: "Studi Kasus Analisis Data",
-      tujuanPembelajaran: "1. Meringkas Data dan Visualisasi Data untuk suatu studi kasus.",
-      kegiatanPembelajaran: "- Studi kasus nyata: Meringkas Data dan Visualisasi Data untuk korban bencana banjir.",
+      lingkupMateri: "Studi Kasus",
+      tujuanPembelajaran: "1. Melakukan studi kasus analisis data secara kolaboratif menggunakan tools pengolah lembar kerja.",
+      kegiatanPembelajaran: "- Studi kasus nyata: Meringkas Data dan Visualisasi Data untuk korban bencana banjir",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     }
   ],
@@ -250,13 +250,7 @@ export const LINGKUP_MATERI_MAP_VIII: Record<string, LingkupMateriOption[]> = {
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
     {
-      lingkupMateri: "Problem solving dengan solusi Pemrograman Prosedural",
-      tujuanPembelajaran: "1. Menyusun kode program, melakukan spesifikasi input, proses, output serta menganalisis dan mengembangkan logika program prosedural.",
-      kegiatanPembelajaran: "- Mencetak Pola 1 sampai N Tanda Bintang\n- Mencetak Pola N sampai 1 Tanda Bintang\n- Mencetak Pola Diamond",
-      alokasiWaktu: "2 JP (2 x 40 Menit)"
-    },
-    {
-      lingkupMateri: "Bermain dengan Robot Ozobot (Modul Tambahan)",
+      lingkupMateri: "Modul Tambahan – Bermain dengan Robot Ozobot",
       tujuanPembelajaran: "1. Memahami dan mengenal cara kerja robot line follower (Ozobot) dan mengeksplorasi perilaku robot via pola warna.",
       kegiatanPembelajaran: "- Menggambar Garis Lajur Ozobot\n- Membuat Lajur Warna Ozobot\n- Menulis kode penanda untuk Mengatur Kecepatan Ozobot",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
@@ -264,13 +258,19 @@ export const LINGKUP_MATERI_MAP_VIII: Record<string, LingkupMateriOption[]> = {
   ],
   "DSI": [
     {
-      lingkupMateri: "Dampak media sosial dan pengkajian kritis informasi di media sosial",
-      tujuanPembelajaran: "1. Menjelaskan kegunaan media sosial serta dampak positif dan negatifnya.\n2. Mengkaji kritis informasi atau berita dari media online untuk mendeteksi kebenaran berita.",
+      lingkupMateri: "Media Sosial",
+      tujuanPembelajaran: "1. Menjelaskan kegunaan media sosial serta dampak positif dan negatifnya.",
+      kegiatanPembelajaran: "- Diskusi kelompok mengenai jenis dan dampak penggunaan media sosial dalam kehidupan sehari-hari",
+      alokasiWaktu: "2 JP (2 x 40 Menit)"
+    },
+    {
+      lingkupMateri: "Mengkaji Kritis Informasi Media Sosial",
+      tujuanPembelajaran: "1. Mengkaji kritis informasi atau berita dari media online untuk mendeteksi kebenaran berita.",
       kegiatanPembelajaran: "- Aktivitas analisis dan Pengkajian kritis berita dari media online",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
     },
     {
-      lingkupMateri: "Cyberbullying (perundungan di dunia maya)",
+      lingkupMateri: "Cyberbullying",
       tujuanPembelajaran: "1. Menjelaskan cyberbullying, jenis-jenisnya, dan cara mengantisipasinya.\n2. Mengkaji kritis kasus perundungan siber untuk mengantisipasinya.",
       kegiatanPembelajaran: "- Diskusi kasus Cyberbullying dan solusinya",
       alokasiWaktu: "2 JP (2 x 40 Menit)"
@@ -278,16 +278,22 @@ export const LINGKUP_MATERI_MAP_VIII: Record<string, LingkupMateriOption[]> = {
   ],
   "PLB": [
     {
-      lingkupMateri: "Pengembangan artefak komputasional media interaktif tentang lempeng bumi",
+      lingkupMateri: "Media Interaktif Lempeng Bumi",
       tujuanPembelajaran: "1. Berkolaborasi dalam kelompok untuk merancang, menguji, dan menyempurnakan media interaktif bertema Lempeng Bumi sebagai solusi terpadu.",
       kegiatanPembelajaran: "- Membuat Media Interaktif Lempeng Bumi\n- Membuat Media Interaktif Lempeng Tektonik Indonesia di Scratch",
       alokasiWaktu: "4 JP (4 x 40 Menit)"
     },
     {
-      lingkupMateri: "Pengembangan artefak komputasional mesin hitung uang koin dan modifikasinya",
-      tujuanPembelajaran: "1. Mengembangkan artefak komputasional berupa mesin mekanis/simulasi penghitung koin beserta penyempurnaan instruksi kodenya.",
-      kegiatanPembelajaran: "- Merancang program Mesin hitung uang Koin\n- Modifikasi tampilan program mesin hitung\n- Modifikasi mesin hitung untuk menghitung uang",
-      alokasiWaktu: "6 JP (6 x 40 Menit)"
+      lingkupMateri: "Mesin Hitung Uang Koin",
+      tujuanPembelajaran: "1. Mengembangkan artefak komputasional berupa mesin mekanis/simulasi penghitung koin.",
+      kegiatanPembelajaran: "- Merancang program Mesin hitung uang Koin menggunakan Scratch",
+      alokasiWaktu: "3 JP (3 x 40 Menit)"
+    },
+    {
+      lingkupMateri: "Modifikasi Tampilan Mesin Hitung Uang Koin",
+      tujuanPembelajaran: "1. Melakukan modifikasi dan penyempurnaan instruksi kode serta tampilan dari mesin hitung uang koin.",
+      kegiatanPembelajaran: "- Modifikasi tampilan program mesin hitung\n- Modifikasi mesin hitung untuk menghitung uang",
+      alokasiWaktu: "3 JP (3 x 40 Menit)"
     }
   ]
 };
