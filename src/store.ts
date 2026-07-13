@@ -50,7 +50,7 @@ export const DEFAULT_FORM_DATA: ModulData = {
   capaian_pembelajaran: ELEMEN_INFORMATIKA_VIII[0].cp,
   tujuan_pembelajaran: ELEMEN_INFORMATIKA_VIII[0].tp_default,
   alokasi_waktu: '2 JP (2 x 40 Menit)',
-  jumlah_pertemuan: '1 Pertemuan',
+  jumlah_pertemuan: '1',
   model_pembelajaran: 'Problem Based Learning (PBL)',
   metode_pembelajaran: ['Diskusi Kelompok', 'Tanya Jawab Interaktif', 'Praktikum Langsung / Hands-on'],
   profil_pelajar_pancasila: ['Gotong Royong', 'Bernalar Kritis', 'Kreatif'],

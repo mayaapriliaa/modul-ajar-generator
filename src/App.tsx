@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { generateModul } from "./services/api";
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -411,298 +412,165 @@ export default function App() {
   };
 
   const generateModul = async () => {
-    setIsGenerating(true);
-    setError(null);
-    try {
-      const payload = {
-        ...formData,
-        metode_pembelajaran: formData.metode_pembelajaran.join(", "),
-        profil_pelajar_pancasila: formData.profil_pelajar_pancasila.join(", "),
-        sarana_prasarana: [
-          ...formData.sarana_prasarana,
-          ...(formData.sarana_prasarana_kustom ? [formData.sarana_prasarana_kustom] : [])
-        ].join(", ")
-      };
+  setIsGenerating(true);
+  setError(null);
 
-      const response = await fetch('/api/generate-modul', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      
-      const data = await response.json();
-      if (!response.ok || data.error) {
-        throw new Error(data.error || `Error ${response.status}: Gagal menyusun modul.`);
-      }
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/generate-modul", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        body: JSON.stringify({
+            guru_id: 1,
+            elemen_id: 1,
+            topik_master_id: 1,
 
-      let modulText = data.modul;
-      if (modulText) {
-        modulText = modulText
-          .replace(/=== MODUL AJAR SELESAI DIGENERATE ===/gi, '')
-          .replace(/Modul Ajar Selesai Digenerate/gi, '')
-          .replace(/Modul Ajar Generate Selesai/gi, '')
-          .trim();
-      }
-      setGeneratedModul(modulText);
-      setStep(3); // Go to preview
-      if (activeDraftId) {
-        saveDraft(activeDraftId, formData, modulText, 3);
-      }
-    } catch (err: any) {
-      setError(err.message || 'Terjadi kesalahan saat generate modul. Pastikan koneksi internet Anda stabil.');
-    } finally {
-      setIsGenerating(false);
+            semester: formData.semester,
+            tahun_pelajaran: formData.tahun_pelajaran,
+            topik_materi: formData.topik_materi,
+            alokasi_waktu: formData.alokasi_waktu,
+
+            jumlah_pertemuan: parseInt(
+                formData.jumlah_pertemuan.toString().replace(/\D/g, "")
+            ),
+
+            model_pembelajaran: formData.model_pembelajaran,
+            tujuan_pembelajaran: formData.tujuan_pembelajaran,
+
+            metode_pembelajaran: formData.metode_pembelajaran.join(", "),
+            profil_pelajar_pancasila: formData.profil_pelajar_pancasila.join(", "),
+            sarana_prasarana: formData.sarana_prasarana.join(", ")
+        })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.status) {
+        throw new Error(data.message || "Gagal membuat modul.");
     }
-  };
+
+    let modulText = data.generated_modul ?? "";
+
+    modulText = modulText
+        .replace(/=== MODUL AJAR SELESAI DIGENERATE ===/gi, "")
+        .replace(/Modul Ajar Selesai Digenerate/gi, "")
+        .replace(/Modul Ajar Generate Selesai/gi, "")
+        .trim();
+
+    setGeneratedModul(modulText);
+    setStep(3);
+
+    if (activeDraftId) {
+        saveDraft(activeDraftId, formData, modulText, 3);
+    }
+
+} catch (err: any) {
+    console.error(err);
+    setError(err.message || "Terjadi kesalahan.");
+} finally {
+    setIsGenerating(false);
+}
+  }
 
   const reviseModul = async () => {
-    if (!revisionText.trim()) return;
-    setIsRevising(true);
-    setError(null);
-    try {
-      const response = await fetch('/api/revise-modul', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          modul_sebelumnya: generatedModul,
-          instruksi_revisi: revisionText,
-        }),
-      });
+  if (!revisionText.trim()) return;
 
-      const data = await response.json();
-      if (!response.ok || data.error) {
-        throw new Error(data.error || `Error ${response.status}: Gagal memproses revisi.`);
-      }
+  setIsRevising(true);
+  setError(null);
 
-      let modulText = data.modul;
-      if (modulText) {
-        modulText = modulText
-          .replace(/=== MODUL AJAR SELESAI DIGENERATE ===/gi, '')
-          .replace(/Modul Ajar Selesai Digenerate/gi, '')
-          .replace(/Modul Ajar Generate Selesai/gi, '')
-          .trim();
-      }
-      setGeneratedModul(modulText);
-      setRevisionText('');
-      if (activeDraftId) {
-        saveDraft(activeDraftId, formData, modulText, 3);
-      }
-    } catch (err: any) {
-      setError(err.message || 'Terjadi kesalahan saat proses revisi.');
-    } finally {
-      setIsRevising(false);
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/revise-modul", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        modul: generatedModul,
+        revisi: revisionText,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || data.error) {
+      throw new Error(
+        data.error || `Error ${response.status}: Gagal memproses revisi.`
+      );
     }
-  };
 
-  const downloadWordDocument = () => {
-    if (!modulRef.current) return;
-    setIsDownloading(true);
+   let modulText = data.generated_modul || "";
 
-    try {
-      // 1. Get the word-document container
-      const docElement = modulRef.current.querySelector('.word-document');
-      if (!docElement) throw new Error('Elemen dokumen tidak ditemukan');
+console.log(data);
+console.log(modulText);
 
-      // 2. Clone it to manipulate offscreen
-      const clone = docElement.cloneNode(true) as HTMLElement;
+if (modulText) {
+  modulText = modulText
+    .replace(/=== MODUL AJAR SELESAI DIGENERATE ===/gi, "")
+    .replace(/Modul Ajar Selesai Digenerate/gi, "")
+    .replace(/Modul Ajar Generate Selesai/gi, "")
+    .replace(/^=+\s*$/gm, "")
+    .trim();
 
-      // 3. Remove all 'no-print' header/footer references
-      const noPrintEls = clone.querySelectorAll('.no-print');
-      noPrintEls.forEach(el => el.remove());
+  // Hilangkan semua teks sebelum MODUL AJAR
+  const match = modulText.match(/MODUL AJAR/i);
 
-      // 4. Remove horizontal rules
-      const hrs = clone.querySelectorAll('hr');
-      hrs.forEach(hr => hr.remove());
+  if (match && match.index !== undefined) {
+    modulText = modulText.substring(match.index);
+  }
+}
 
-      // 5. Build rich HTML content specially tailored for Microsoft Word
-      const htmlContent = `
-        <html xmlns:o='urn:schemas-microsoft-com:office:office' 
-              xmlns:w='urn:schemas-microsoft-com:office:word' 
-              xmlns='http://www.w3.org/TR/REC-html40'>
-        <head>
-          <meta charset="utf-8">
-          <title>Modul Ajar Kurikulum Merdeka</title>
-          <!--[if gte mso 9]>
-          <xml>
-            <w:WordDocument>
-              <w:View>Print</w:View>
-              <w:Zoom>100</w:Zoom>
-              <w:DoNotOptimizeForBrowser/>
-            </w:WordDocument>
-          </xml>
-          <![endif]-->
-          <style>
-            @page {
-              size: 21cm 29.7cm; /* A4 size */
-              margin: 4cm 3cm 3cm 4cm; /* standard 4-4-3-3 margins: Top=4cm, Right=3cm, Bottom=3cm, Left=4cm */
-            }
-            body {
-              font-family: "Times New Roman", Times, serif;
-              font-size: 12pt;
-              line-height: 130% !important;
-              color: #000000;
-              margin: 0;
-              padding: 0;
-            }
-            h1 {
-              font-family: "Times New Roman", Times, serif;
-              font-size: 14pt;
-              font-weight: bold;
-              text-transform: uppercase;
-              text-align: center;
-              margin-top: 0pt;
-              margin-bottom: 12pt;
-              line-height: 130% !important;
-              color: #000000;
-              page-break-after: avoid;
-            }
-            h2 {
-              font-family: "Times New Roman", Times, serif;
-              font-size: 13pt;
-              font-weight: bold;
-              text-transform: uppercase;
-              margin-top: 12pt;
-              margin-bottom: 5pt;
-              line-height: 120% !important;
-              color: #000000;
-              page-break-after: avoid;
-            }
-            h3 {
-              font-family: "Times New Roman", Times, serif;
-              font-size: 12pt;
-              font-weight: bold;
-              margin-top: 10pt;
-              margin-bottom: 3pt;
-              line-height: 120% !important;
-              color: #000000;
-              page-break-after: avoid;
-            }
-            h4 {
-              font-family: "Times New Roman", Times, serif;
-              font-size: 11pt;
-              font-weight: bold;
-              margin-top: 8pt;
-              margin-bottom: 3pt;
-              line-height: 120% !important;
-              color: #000000;
-              page-break-after: avoid;
-            }
-            p {
-              font-family: "Times New Roman", Times, serif;
-              font-size: 12pt;
-              margin-top: 0pt;
-              margin-bottom: 5pt;
-              text-align: justify;
-              line-height: 125% !important;
-            }
-            p.multiple-choice-option {
-              font-family: "Times New Roman", Times, serif;
-              font-size: 11pt !important;
-              margin-top: 1pt !important;
-              margin-bottom: 2pt !important;
-              padding-left: 18pt !important;
-              text-indent: -18pt !important;
-              line-height: 115% !important;
-              text-align: justify;
-            }
-            ol {
-              margin-top: 0pt;
-              margin-bottom: 5pt;
-              padding-left: 18pt;
-              line-height: 125% !important;
-            }
-            ul {
-              margin-top: 0pt;
-              margin-bottom: 5pt;
-              padding-left: 16pt;
-              line-height: 125% !important;
-            }
-            li {
-              font-family: "Times New Roman", Times, serif;
-              font-size: 12pt;
-              margin-top: 0pt;
-              margin-bottom: 2pt;
-              text-align: justify;
-              line-height: 125% !important;
-            }
-            /* Tighten up nested lists inside markdown list items */
-            li p {
-              margin-top: 0px !important;
-              margin-bottom: 0px !important;
-              display: inline !important;
-            }
-            ol ol, ul ul, ol ul, ul ol {
-              margin-top: 1pt !important;
-              margin-bottom: 1pt !important;
-              padding-left: 14pt !important;
-            }
-            /* Tighten up table spacing and remove cell paragraph margins */
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 8pt;
-              margin-bottom: 10pt;
-            }
-            th, td {
-              border: 1px solid #111111;
-              padding: 5pt 7pt;
-              text-align: left;
-              font-size: 11pt;
-              vertical-align: top;
-              line-height: 115% !important;
-              font-family: "Times New Roman", Times, serif;
-            }
-            th {
-              background-color: #f2f2f2;
-              font-weight: bold;
-            }
-            td p, th p {
-              margin-top: 0px !important;
-              margin-bottom: 0px !important;
-              padding: 0px !important;
-              line-height: 115% !important;
-            }
-            td ul, td ol, th ul, th ol {
-              margin-top: 0px !important;
-              margin-bottom: 0px !important;
-              padding-left: 12pt !important;
-            }
-            td li, th li {
-              font-size: 10.5pt !important;
-              margin-top: 0px !important;
-              margin-bottom: 2pt !important;
-              line-height: 115% !important;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="printable-content">
-            ${clone.innerHTML}
-          </div>
-        </body>
-        </html>
-      `;
+setGeneratedModul(modulText);
+setRevisionText("");
 
-      // 6. Convert string to Blob with application/msword type
-      const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword;charset=utf-8' });
-      
-      // 7. Trigger the client-side download
-      const filename = `Modul_Ajar_${formData.nama_guru.replace(/\s+/g, '_') || 'Informatika'}.doc`;
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('Word export error:', err);
-      setError('Gagal mengunduh file Word. Silakan coba kembali.');
-    } finally {
-      setIsDownloading(false);
+if (activeDraftId) {
+  saveDraft(activeDraftId, formData, modulText, 3);
+}
+  } catch (err: any) {
+    setError(err.message || "Terjadi kesalahan saat proses revisi.");
+  } finally {
+    setIsRevising(false);
+  }
+};
+
+ const downloadWordDocument = async () => {
+  try {
+    // PERBAIKAN: Mengubah /export-word menjadi /export-docx agar sesuai dengan routes/api.php
+    const response = await fetch("http://127.0.0.1:8000/api/export-docx", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    modul: generatedModul,
+  }),
+});
+
+    if (!response.ok) {
+      throw new Error(`Server melempar error HTTP: ${response.status}`);
     }
-  };
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Modul_Ajar.doc"; // Nama file yang akan terunduh di komputer user
+    
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+
+  } catch (error) {
+    console.error("Gagal mengunduh dokumen Word:", error);
+    alert("Gagal mengekspor ke Word. Pastikan server backend berjalan dan endpoint sudah benar.");
+  }
+};
+
+
 
   const copyToClipboard = () => {
     if (cleanModul) {
@@ -1436,6 +1304,7 @@ export default function App() {
                     className="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:outline-none focus:border-[#473C33] focus:ring-4 focus:ring-[#14b8a6]/20 transition-all font-medium text-slate-700 placeholder-slate-400 bg-slate-50/30"
                   />
                 </div>
+              </div>
 
                 {/* Grid for parameters */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -1526,21 +1395,21 @@ export default function App() {
                       <Layout size={14} className="text-[#14b8a6]" /> Jumlah Pertemuan (1-3)
                     </label>
                     <div className="relative">
-                      <select
-                        name="jumlah_pertemuan"
-                        value={formData.jumlah_pertemuan}
-                        onChange={handleInputChange}
-                        className="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:outline-none focus:border-[#473C33] focus:ring-4 focus:ring-[#14b8a6]/20 transition-all font-semibold text-slate-700 bg-slate-50/30 cursor-pointer appearance-none"
-                      >
-                        <option value="1 Pertemuan">1 Pertemuan</option>
-                        <option value="2 Pertemuan">2 Pertemuan</option>
-                        <option value="3 Pertemuan">3 Pertemuan</option>
-                      </select>
-                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 font-bold">
-                        &darr;
-                      </div>
-                    </div>
-                  </div>
+  <select
+    name="jumlah_pertemuan"
+    value={formData.jumlah_pertemuan}
+    onChange={handleInputChange}
+    className="w-full px-5 py-3.5 rounded-2xl border border-slate-200 focus:outline-none focus:border-[#473C33] focus:ring-4 focus:ring-[#14b8a6]/20 transition-all font-semibold text-slate-700 bg-slate-50/30 cursor-pointer appearance-none"
+  >
+    <option value="1">1 Pertemuan</option>
+    <option value="2">2 Pertemuan</option>
+    <option value="3">3 Pertemuan</option>
+  </select>
+
+  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500 font-bold">
+    &darr;
+  </div>
+</div>
 
                   {/* Model Pembelajaran */}
                   <div className="space-y-2">
